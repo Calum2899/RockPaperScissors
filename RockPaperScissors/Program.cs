@@ -7,7 +7,7 @@
 
             Console.WriteLine("Welcome to Rock, Paper, Scissors!");
             Console.WriteLine("Enter 0 at any time to come back to this screen or to exit from this screen");
-            Console.WriteLine("Choose Gamemode: [1]Normal [2]Last Choice Computer ");
+            Console.WriteLine("Choose Gamemode: [1]Normal [2]Last Choice Computer [3]Spock!");
             var gameMode = Console.ReadLine();
             switch (gameMode)
             {
@@ -22,8 +22,12 @@
                     var playLastChoiceGame = new RockPaperScissors();
                     PlayLastChoiceComputer(playLastChoiceGame);
                     break;
+                case "3":
+                    var playSpock = new RockPaperScissors();
+                    PlaySpock(playSpock);
+                    break;
                 default:
-                    Console.WriteLine("Invalid choice. Please select 1 or 2. (0 to exit)");
+                    Console.WriteLine("Invalid choice. Please select 1, 2, 3. (0 to exit)");
                     Main(new string[] { });
                     break;
             }
@@ -93,6 +97,40 @@
             Console.WriteLine($"Result: {game.result}");
 
             PlayLastChoiceComputer(game);
+        }
+        private static void PlaySpock(RockPaperScissors game)
+        {
+            Console.WriteLine("Select: [1]Rock [2]Paper [3]Scissors [4]Spock [5]Lizard");
+
+            var userSelection = Console.ReadLine();
+            var playerChoice = string.Empty;
+            try
+            {
+                playerChoice = userSelection switch
+                {
+                    "0" => "Back",
+                    "1" => "Rock",
+                    "2" => "Paper",
+                    "3" => "Scissors",
+                    "4" => "Spock",
+                    "5" => "Lizard",
+                    _ => throw new ArgumentException("Invalid choice. Please select 1, 2, 3, 4 or 5.")
+                };
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("Please select valid option by entering the desired number");
+                PlaySpock(game);
+            }
+            if (playerChoice == "Back")
+                Main(new string[] { });
+            game.PlaySpock(playerChoice);
+            // Display the result
+            Console.WriteLine($"Player choice: {playerChoice}");
+            Console.WriteLine($"Computer choice: {game.computer}");
+            Console.WriteLine($"Result: {game.result}");
+
+            PlaySpock(game);
         }
     }
 }
